@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 let
-  packages = import ./pip.nix { inherit python; };
   python = python3.withPackages (p: with p; [
     pip
     ipython
