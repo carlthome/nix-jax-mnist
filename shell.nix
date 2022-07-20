@@ -1,11 +1,14 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 let
+  packages = import ./pip.nix { inherit python; };
   python = python3.withPackages (p: with p; [
+    pip
     ipython
+    black
+    mypy
     jax
     jaxlib
-    black
     tensorflow
     tensorflow-datasets
   ]);
@@ -14,4 +17,12 @@ mkShell {
   buildInputs = [
     python
   ];
+
+  shellHook = ''
+    PYTHONPATH="${python.sitePackages}:$PYTHONPATH"
+    VIRTUAL_ENV=.venv
+
+    ${python}/bin/python -m venv $VIRTUAL_ENV
+    source $VIRTUAL_ENV/bin/activate
+  '';
 }

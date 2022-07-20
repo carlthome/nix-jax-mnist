@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from jax import value_and_grad, random, numpy as np
 
 from tensorflow_datasets import load

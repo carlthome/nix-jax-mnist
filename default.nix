@@ -1,20 +1,27 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
-stdenv.mkDerivation {
-  inherit (packages.zucker) version src;
-  pname = "zucker-docs";
 
-  buildInputs = [
-    (python39.withPackages (ps: with ps; [
-      sphinx
-      sphinx_rtd_theme
+stdenv.mkDerivation {
+  name = "train";
+
+  src = ./.;
+
+  propagatedBuildInputs = [
+    (python3.withPackages (ps: with ps; [
+      jax
+      jaxlib
+      tensorflow
+      tensorflow-datasets
     ]))
   ];
+
   buildPhase = ''
-    echo building
+    echo Building!
   '';
 
   installPhase = ''
-    echo installing > $out
+    mkdir -p $out/bin
+    cp train.py $out/bin/train
+    chmod +x $out/bin/train
   '';
-};
+}
