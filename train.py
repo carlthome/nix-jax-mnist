@@ -37,6 +37,7 @@ def preprocess(examples):
 
 
 if __name__ == "__main__":
+
     # Choose hyperparameters.
     learning_rate = 0.01
     batch_size = 32
