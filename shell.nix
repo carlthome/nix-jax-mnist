@@ -6,6 +6,7 @@ let
     ipython
     black
     mypy
+    tqdm
     jax
     jaxlib
     tensorflow
@@ -18,10 +19,8 @@ mkShell {
   ];
 
   shellHook = ''
-    PYTHONPATH="${python.sitePackages}:$PYTHONPATH"
-    VIRTUAL_ENV=.venv
-
-    ${python}/bin/python -m venv $VIRTUAL_ENV
-    source $VIRTUAL_ENV/bin/activate
+    export PIP_PREFIX=$(pwd)/_build/pip_packages
+    export PYTHONPATH="$PIP_PREFIX/${python.sitePackages}:$PYTHONPATH"
+    export PATH="$PIP_PREFIX/bin:$PATH"
   '';
 }

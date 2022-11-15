@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from jax import value_and_grad, random, numpy as np
-
+from tqdm.auto import trange, tqdm
 from tensorflow_datasets import load
 
 
@@ -59,27 +59,36 @@ if __name__ == "__main__":
     )
     b = np.zeros([num_classes])
 
-    for epoch in range(epochs):
+    for epoch in trange(epochs, desc="Training model.", unit="epoch"):
 
         # Train
-        for examples in training_data.as_numpy_iterator():
+        num_examples = 0
+        total = 0.0
+        for examples in tqdm(training_data.as_numpy_iterator(), desc=f"Training epoch {epoch}", unit='minibatches', position=1):
             x, y = preprocess(examples)
 
             l, grads = value_and_grad(cost, argnums=[0, 1])(W, b, x, y)
-            dldw, dldb = grads
 
+            dldw, dldb = grads
             W = W + learning_rate * -dldw
             b = b + learning_rate * -dldb
 
+            num_examples += len(x)
+            total += l
+
+            #print(f"Loss: {total/num_examples}")
+
         # Evaluate
-        n = 0
-        tp = 0
-        for examples in test_data.as_numpy_iterator():
+        num_examples = 0
+        total = 0
+        for examples in tqdm(test_data.as_numpy_iterator(), desc=f"Evaluating epoch {epoch}", unit="minibatches", position=1):
             x, y = preprocess(examples)
             y_pred = predict(x, W, b)
 
-            tp += np.count_nonzero(y.argmax(-1) == y_pred.argmax(-1))
-            n += batch_size
-        accuracy = tp / n
+            total += np.count_nonzero(y.argmax(-1) == y_pred.argmax(-1))
+            num_examples += len(x)
 
-        print(f"Epoch: {epoch}, Test accuracy: {accuracy*100}%")
+        average_training_loss = total / num_examples
+        average_test_accuracy = total / num_examples
+
+        print(f"Epoch: {epoch}, Training Loss: {average_training_loss}, Test accuracy: {average_test_accuracy*100}%")
