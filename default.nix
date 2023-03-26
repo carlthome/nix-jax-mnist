@@ -6,7 +6,7 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  propagatedBuildInputs = [
+  buildInputs = [
     (python3.withPackages (ps: with ps; [
       jax
       jaxlib
@@ -23,5 +23,13 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     cp train.py $out/bin/train
     chmod +x $out/bin/train
+  '';
+
+  checkInputs = [
+    pytest
+  ];
+
+  checkPhase = ''
+    pytest
   '';
 }
