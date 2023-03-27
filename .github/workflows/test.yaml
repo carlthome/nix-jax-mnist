@@ -45,10 +45,10 @@ jobs:
       - name: Check whether the flake evaluates and run its tests
         run: nix flake check --keep-going 2>> $GITHUB_STEP_SUMMARY
 
-      - name: nix-build
+      - name: Build (and run) default package
         run: |
-          nix-build
+          nix build
           ./result/bin/train
 
-      - name: nix-shell
-        run: nix-shell --command python train.py
+      - name: Run training script in default shell
+        run: nix shell --command python train.py
