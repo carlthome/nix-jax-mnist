@@ -25,7 +25,3 @@ nix-shell
 within which `python` has the packages specified in [shell.nix](./shell.nix) as well as a virtual environment for `pip install`:ing additional dependencies when needed.
 
 Thus you can simply run `python train.py` as per usual.
-
-# TODO
-- Explore nix flakes and poetry2nix.
-- How to not repeat Python application dependencies across shell.nix and default.nix?
