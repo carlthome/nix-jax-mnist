@@ -6,8 +6,9 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  buildInputs = [
+  nativeBuildInputs = [
     (python3.withPackages (ps: with ps; [
+      tqdm
       jax
       jaxlib
       tensorflow
