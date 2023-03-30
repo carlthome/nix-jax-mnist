@@ -1,7 +1,7 @@
 {
   description = "A toy example of training a ML model with JAX";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
   };
   outputs = { self, nixpkgs }:
     let
