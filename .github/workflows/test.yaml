@@ -39,5 +39,5 @@ jobs:
       - name: Build default package
         run: nix build
 
-      - name: Run training script in default shell
-        run: nix shell --command python train.py
+      - name: Run default package
+        run: nix run
