@@ -13,6 +13,17 @@ jobs:
       - name: Checkout merge commit
         uses: actions/checkout@v3
 
+      - name: Create nix store
+        run: |
+          sudo mkdir -p /nix/store
+          sudo chmod -R 777 /nix
+
+      - name: Cache nix store
+        uses: actions/cache@v3
+        with:
+          path: /nix/store/**
+          key: ${{ runner.os }}-${{ hashFiles('flake.lock') }}
+
       - name: Install nix
         uses: cachix/install-nix-action@v18
 
