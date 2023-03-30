@@ -6,7 +6,7 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  nativeBuildInputs = [
+  propagatedBuildInputs = [
     (python3.withPackages (ps: with ps; [
       tqdm
       jax
