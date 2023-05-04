@@ -1,0 +1,11 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    uses: carlthome/workflows/.github/workflows/flake-update.yaml@main
